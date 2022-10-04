@@ -15,7 +15,7 @@ public class User {
     private String password;
     private String email;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,orphanRemoval = true)
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,orphanRemoval = true,cascade=CascadeType.PERSIST)
     private List<Authority> authorities = new ArrayList<>();
 
     public User(String username,String email,String password,Authority authority){
