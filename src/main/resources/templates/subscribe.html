@@ -75,7 +75,13 @@
                 Subscribe
             </button>
 
-            <div id="messages"></div>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <div id="clientSecretItem" type="hidden" th:name="${clientSecret}" th:value="${clientSecret}" ></div>
+
+            <div id="messages">
+            </div>
+
+
         </form>
     </main>
 </div>
