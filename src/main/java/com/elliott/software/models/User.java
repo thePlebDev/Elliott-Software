@@ -1,8 +1,14 @@
 package com.elliott.software.models;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity(name= "users")
 public class User {
@@ -11,19 +17,29 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "Username may not be empty")
+
     private String username;
+    @NotEmpty(message = "Password may not be empty")
+    @Size(min=8, message = "Password must size must be greater than 8 characters")
     private String password;
+    @NotEmpty(message = "Email may not be empty")
     private String email;
+    private Boolean receiveWeeklyEmail;
 
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,orphanRemoval = true,cascade=CascadeType.PERSIST)
     private List<Authority> authorities = new ArrayList<>();
 
-    public User(String username,String email,String password,Authority authority){
+    public User(String username,String email,String password){
         this.email = email;
         this.username = username;
         this.password = password;
-        this.authorities.add(authority);
-
+    }
+    public User(String username,String email,String password,Boolean receiveWeeklyEmail){
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.receiveWeeklyEmail = receiveWeeklyEmail;
     }
     public User(){}
 
@@ -43,6 +59,7 @@ public class User {
     public List<Authority> getAuthorities(){
         return this.authorities;
     }
+    public Boolean getReceiveWeeklyEmail(){return this.receiveWeeklyEmail;}
 
     //SETTERS
     public void setUsername(String username){
@@ -57,4 +74,5 @@ public class User {
     public void addAuthority(Authority authority){
         this.authorities.add(authority);
     }
+    public void setReceiveWeeklyEmail(Boolean receiveWeeklyEmail){this.receiveWeeklyEmail = receiveWeeklyEmail;}
 }
