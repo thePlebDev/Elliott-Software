@@ -43,4 +43,36 @@ public class UserRepositoryTest {
         assertThat(foundUser.getEmail()).isEqualTo(EXPECTED_EMAIL);
 
     }
+
+    @Test
+    public void findByCustomerId(){
+        //GIVEN
+        String EXPECTED_CUSTOMER_ID= "4443433343";
+        User user = new User("EXPECTED_USERNAME","EXPECTED_EMAIL","123456789",false);
+        user.setCustomerId(EXPECTED_CUSTOMER_ID);
+
+        //WHEN
+        underTest.save(user);
+        User foundUser = underTest.findByCustomerId(EXPECTED_CUSTOMER_ID).get();
+
+        //THEN
+        assertThat(foundUser.getCustomerId()).isEqualTo(EXPECTED_CUSTOMER_ID);
+
+    }
+
+    @Test
+    public void existsByCustomerId(){
+        //GIVEN
+        String EXPECTED_CUSTOMER_ID= "4443433343";
+        User user = new User("EXPECTED_USERNAME","EXPECTED_EMAIL","123456789",false);
+        user.setCustomerId(EXPECTED_CUSTOMER_ID);
+
+        //WHEN
+        underTest.save(user);
+        Boolean foundUser = underTest.existsByCustomerId(EXPECTED_CUSTOMER_ID);
+
+        //THEN
+        assertThat(foundUser).isEqualTo(true);
+    }
+
 }

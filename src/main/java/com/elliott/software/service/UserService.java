@@ -27,14 +27,16 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void saveBasicUser(User user) throws StripeException {
+    public String saveBasicUser(User user) throws StripeException {
         Authority basicAuth = new Authority("READ",user);
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         user.addAuthority(basicAuth);
 
-        createCustomer(user.getEmail(),user.getUsername());
+       String customerId = createCustomer(user.getEmail(),user.getUsername());
+       user.setCustomerId(customerId);
         this.userRepository.save(user);
+        return customerId;
     }
 
     public Boolean doesEmailExist(String email, BindingResult bindingResult){
@@ -47,7 +49,7 @@ public class UserService {
         return false;
 
     }
-    private Customer createCustomer(String username, String email) throws StripeException {
+    private String createCustomer(String username, String email) throws StripeException {
         CustomerCreateParams params =
                 CustomerCreateParams
                         .builder()
@@ -55,7 +57,7 @@ public class UserService {
                         .setName(username)
                         .build();
         Customer customer = Customer.create(params);
-        return customer;
+        return customer.getId();
 
     }
 
