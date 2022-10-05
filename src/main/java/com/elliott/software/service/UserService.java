@@ -3,6 +3,10 @@ package com.elliott.software.service;
 import com.elliott.software.models.Authority;
 import com.elliott.software.models.User;
 import com.elliott.software.repositories.UserRepository;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Customer;
+import com.stripe.param.CustomerCreateParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,17 +20,20 @@ public class UserService {
     private UserRepository userRepository;
     private BCryptPasswordEncoder passwordEncoder;
 
+
     @Autowired
     public UserService(UserRepository userRepository,BCryptPasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void saveBasicUser(User user){
+    public void saveBasicUser(User user) throws StripeException {
         Authority basicAuth = new Authority("READ",user);
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         user.addAuthority(basicAuth);
+
+        createCustomer(user.getEmail(),user.getUsername());
         this.userRepository.save(user);
     }
 
@@ -38,5 +45,18 @@ public class UserService {
             return true;
         }
         return false;
+
     }
+    private Customer createCustomer(String username, String email) throws StripeException {
+        CustomerCreateParams params =
+                CustomerCreateParams
+                        .builder()
+                        .setEmail(email)
+                        .setName(username)
+                        .build();
+        Customer customer = Customer.create(params);
+        return customer;
+
+    }
+
 }

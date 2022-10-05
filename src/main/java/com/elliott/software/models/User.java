@@ -26,6 +26,7 @@ public class User {
     @NotEmpty(message = "Email may not be empty")
     private String email;
     private Boolean receiveWeeklyEmail;
+    private String customerId;
 
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,orphanRemoval = true,cascade=CascadeType.PERSIST)
     private List<Authority> authorities = new ArrayList<>();
@@ -60,6 +61,7 @@ public class User {
         return this.authorities;
     }
     public Boolean getReceiveWeeklyEmail(){return this.receiveWeeklyEmail;}
+    public String getCustomerId(){return this.customerId;}
 
     //SETTERS
     public void setUsername(String username){
@@ -75,4 +77,5 @@ public class User {
         this.authorities.add(authority);
     }
     public void setReceiveWeeklyEmail(Boolean receiveWeeklyEmail){this.receiveWeeklyEmail = receiveWeeklyEmail;}
+    public void setCustomerId(String customerId){this.customerId = customerId;}
 }

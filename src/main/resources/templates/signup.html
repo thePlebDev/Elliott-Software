@@ -47,7 +47,7 @@
             <form action="#" th:action="@{/signup}" th:object="${user}" method="post" >
                 <div class="mb-3">
                     <label for="exampleInputUsername" class="form-label">Username</label>
-                    <input required type="text" th:class="${#fields.hasErrors('username')}? 'form-control is-invalid' : 'form-control'" th:field="*{username}" id="exampleInputUsername"  aria-describedby="usernameHelp">
+                    <input  type="text" th:class="${#fields.hasErrors('username')}? 'form-control is-invalid' : 'form-control'" th:field="*{username}" id="exampleInputUsername"  aria-describedby="usernameHelp">
                     <div th:if="${#fields.hasErrors('username')}" class="invalid-feedback" th:errors="*{username}">username error</div>
 
                 </div>
