@@ -3,6 +3,8 @@ package com.elliott.software.controllers;
 import com.elliott.software.models.User;
 import com.elliott.software.repositories.UserRepository;
 import com.elliott.software.service.UserService;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import javax.validation.Valid;
 
 @Controller
 public class MainController {
+
 
     @Autowired
     private UserService userService;
@@ -31,16 +34,17 @@ public class MainController {
         return "signup";
     }
     @PostMapping("/signup")
-    public String signupPost(@Valid User user, BindingResult bindingResult){
+    public String signupPost(@Valid User user, BindingResult bindingResult) throws StripeException {
 
-        Boolean doesEmailExist = this.userService.doesEmailExist(user.getEmail(),bindingResult);
+        //check if email already exists
+        userService.doesEmailExist(user.getEmail(),bindingResult);
 
         if(bindingResult.hasErrors()){
             System.out.println("THERE WAS AN ERROR");
             return "signup";
         }
-        this.userService.saveBasicUser(user);
 
+        this.userService.saveBasicUser(user);
 
         return "signup";
     }
