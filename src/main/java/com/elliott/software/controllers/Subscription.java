@@ -18,9 +18,9 @@ public class Subscription {
     public String subscribe(@RequestParam String id){
         Boolean customerExists = subscriptionService.checkIfCustomerIdExists(id);
 
-        if(!customerExists){
-            return "redirect:/signup";
-        }
+//        if(!customerExists){
+//            return "redirect:/signup";
+//        }
 
         return "subscribe";
     }
