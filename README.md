@@ -3,7 +3,7 @@
 - This SAS web application was created to be able to provide the beef cattle farmers of Alberta Canada with as much quality software I can create.
 
 
-###Mission statement
+### Mission statement
 - Provide my community with technological value in the form of software
 
 
