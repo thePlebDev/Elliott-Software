@@ -44,8 +44,9 @@ public class MainController {
             return "signup";
         }
 
-        this.userService.saveBasicUser(user);
+        String customerId = this.userService.saveBasicUser(user);
 
-        return "signup";
+        return "redirect:/subscribe?id=" + customerId;
+
     }
 }
