@@ -3,6 +3,12 @@ const setMessage = (message) => {
   const messageDiv = document.querySelector('#messages');
   messageDiv.innerHTML += "<br>" + message;
 }
+const setClientSecret = ()=>{
+    const clientSecret = document.querySelector('#clientSecretItem')
+
+    window.sessionStorage.setItem('clientSecret', clientSecret.getAttribute('value'));
+
+}
 
 // Fetch public key and initialize Stripe.
 let stripe, cardElement;
@@ -19,6 +25,7 @@ fetch('/rest/config')
 
 // Extract the client secret query string argument. This is
 // required to confirm the payment intent from the front-end.
+setClientSecret()
 const subscriptionId = window.sessionStorage.getItem('subscriptionId');
 const clientSecret = window.sessionStorage.getItem('clientSecret');
 // This sample only supports a Subscription with payment
@@ -54,7 +61,7 @@ form.addEventListener('submit', async (e) => {
     } else {
       // Redirect the customer to their account page
       setMessage('Success! Redirecting to your account.');
-      window.location.href = '/account.html';
+      window.location.href = '/subscribe/thankYou';
     }
   });
 });
